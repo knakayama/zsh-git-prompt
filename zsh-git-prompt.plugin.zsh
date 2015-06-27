@@ -5,7 +5,7 @@ setopt prompt_subst
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 autoload -Uz is-at-least
-autoload -Uz colors
+autoload -Uz colors && colors
 
 zstyle ':vcs_info:*' max-exports 1
 zstyle ':vcs_info:*' enable git
@@ -127,11 +127,6 @@ function -zsh-git-prompt() {
     zsh_git_prompt="${(j::)messages}"
   fi
 
-  #RPROMPT="$prompt"
-  #PROMPT='%n %F{blue}%~%f%b '
-  #PROMPT="${PROMPT}${_ZSH_GIT_PROMPT}"
-  #PROMPT="${PROMPT}"'[%?]'$'\n''%(!,#,$) '
-  #PROMPT='%n %F{blue}%~%f%b' $_ZSH_GIT_PROMPT'[%?]'$'\n''%(!,#,$) '
   echo "$zsh_git_prompt"
 }
 
