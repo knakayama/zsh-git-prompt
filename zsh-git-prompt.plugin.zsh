@@ -21,7 +21,8 @@ if is-at-least 4.3.11; then
     git-branch-name    \
     git-local-diff     \
     git-remote-diff    \
-    git-stash-count
+    git-stash-count    \
+    git-branch-count
 
   # initial hook function
   # call this function only when inside git work tree
@@ -107,6 +108,20 @@ if is-at-least 4.3.11; then
 
     if [[ $stash_num -ne 0 ]]; then
       hook_com[misc]+="|${red}${stash_suffix}${stash_num}${reset}"
+    fi
+  }
+
+  function +vi-git-branch-count() {
+
+    local branch_num
+    local branch_suffix="B"
+    local red="%{$fg_bold[red]%}"
+    local reset="%{${reset_color}%}"
+
+    branch_num=$(git branch | wc -l | tr -d ' ')
+
+    if [[ $branch_num -gt 1  ]]; then
+      hook_com[misc]+="|${red}${branch_suffix}${branch_num}${reset}"
     fi
   }
 fi
