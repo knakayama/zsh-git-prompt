@@ -51,18 +51,27 @@ if is-at-least 4.3.11; then
     local git_local_diff
     local clean="clean"
     local green="%{$fg_bold[green]%}"
-    local red="%{$fg_bold[red]%}"
     local reset="%{${reset_color}%}"
 
+    # preserve git status color
+    # http://stackoverflow.com/questions/7641392/bash-command-preserve-color-when-piping
     git_local_diff="$(
-      git status --porcelain \
+      script -q /dev/null \
+      git status --short \
       | awk '{print $1}' \
       | sort | uniq -c \
-      | awk '{printf "%s", $2$1} END {printf "\n"}'
+      | awk '
+          {
+            # if you want to bold color, set color.status.* with bold attribute
+            # http://stackoverflow.com/questions/12795790/how-to-colorize-git-status-output
+            printf "%s\033[1;31m%s\033[0m", $2, $1
+          }
+        ' \
+      | cat
     )"
 
     if [[ -n "$git_local_diff" ]]; then
-      hook_com[misc]+="${red}$git_local_diff${reset}"
+      hook_com[misc]+="$git_local_diff"
     else
       hook_com[misc]+="${green}${clean}${reset}"
     fi
