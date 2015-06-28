@@ -64,7 +64,16 @@ if is-at-least 4.3.11; then
           {
             # if you want to bold color, set color.status.* with bold attribute
             # http://stackoverflow.com/questions/12795790/how-to-colorize-git-status-output
-            printf "%s\033[1;31m%s\033[0m", $2, $1
+            if ($2 ~ /31m/) {
+              printf "%s\033[1;31m%s\033[0m", $2, $1
+            }
+            else if ($2 ~ /32m/) {
+              printf "%s\033[1;32m%s\033[0m", $2, $1
+            }
+            else {
+              # default color is red
+              printf "%s\033[1;31m%s\033[0m", $2, $1
+            }
           }
         ' \
       | cat
