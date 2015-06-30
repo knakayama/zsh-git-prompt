@@ -56,8 +56,8 @@ if is-at-least 4.3.11; then
     # preserve git status color
     # http://stackoverflow.com/questions/7641392/bash-command-preserve-color-when-piping
     git_local_diff="$(
-      script -q /dev/null \
-      git status --short \
+      script --quiet /dev/null \
+      --command 'git status --short' \
       | awk '{print $1}' \
       | sort | uniq -c \
       | awk '
