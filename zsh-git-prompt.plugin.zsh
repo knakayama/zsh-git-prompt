@@ -52,12 +52,23 @@ if is-at-least 4.3.11; then
     local clean="clean"
     local green="%{$fg_bold[green]%}"
     local reset="%{${reset_color}%}"
+    local cmd
 
+    case "$OSTYPE" in
+      darwin*|freebsd*)
+        cmd="script -q /dev/null git status --short"
+        ;;
+      linux*)
+        cmd="script --quiet /dev/null --command 'git status --short'"
+        ;;
+      *)
+        return 1
+        ;;
+    esac
     # preserve git status color
     # http://stackoverflow.com/questions/7641392/bash-command-preserve-color-when-piping
     git_local_diff="$(
-      script --quiet /dev/null \
-      --command 'git status --short' \
+      sh -c "$cmd" \
       | awk '{print $1}' \
       | sort | uniq -c \
       | awk '
