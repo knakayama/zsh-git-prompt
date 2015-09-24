@@ -56,10 +56,10 @@ if is-at-least 4.3.11; then
 
     case "$OSTYPE" in
       darwin*|freebsd*)
-        cmd="script -q /dev/null git status --short"
+        cmd="script -q /dev/null git status --short --ignore-submodules=dirty"
         ;;
       linux*)
-        cmd="script --quiet /dev/null --command 'git status --short'"
+        cmd="script --quiet /dev/null --command 'git status --short --ignore-submodules=dirty'"
         ;;
       *)
         return 1
