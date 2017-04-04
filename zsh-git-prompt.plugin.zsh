@@ -42,7 +42,7 @@ if is-at-least 4.3.11; then
     local reset="%{${reset_color}%}"
 
     git_branch_name="$(git rev-parse --abbrev-ref=loose HEAD 2>/dev/null)"
-    hook_com[misc]+="${yellow}${git_branch_name}${reset}|"
+    hook_com[misc]+="${yellow}${git_branch_name//[^a-z0-9\/]/-}${reset}|"
   }
 
   # display local diff(s)
